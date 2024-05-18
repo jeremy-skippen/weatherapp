@@ -1,0 +1,6 @@
+@JeremySkippen.WeatherApp_HostAddress = http://localhost:5261
+
+GET {{JeremySkippen.WeatherApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
