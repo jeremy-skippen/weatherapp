@@ -1,6 +1,7 @@
-@JeremySkippen.WeatherApp_HostAddress = http://localhost:5261
+@JeremySkippen_WeatherApp_HostAddress = http://localhost:5261
 
-GET {{JeremySkippen.WeatherApp_HostAddress}}/weatherforecast/
+GET {{JeremySkippen_WeatherApp_HostAddress}}/weather
 Accept: application/json
+Authorization: ApiKey API-KEY-3
 
 ###
