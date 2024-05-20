@@ -8,12 +8,12 @@ using Moq;
 
 namespace JeremySkippen.WeatherApp.Tests;
 
-public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public class AuthenticationTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
     private readonly Mock<IOpenWeatherMapClient> _mockOpenWeatherMapClient = new();
 
-    public IntegrationTests(WebApplicationFactory<Program> factory)
+    public AuthenticationTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory.WithWebHostBuilder(cfg =>
         {
