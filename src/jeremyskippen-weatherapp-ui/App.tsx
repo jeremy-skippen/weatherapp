@@ -1,34 +1,82 @@
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import * as yup from 'yup';
+
+import { getWeather } from './weather';
 import './App.css';
 
+interface FormState {
+  apiKey: string;
+  cityName: string;
+  countryName: string;
+}
+
+const validationSchema = yup.object<FormState>({
+  apiKey: yup.string().required('Required'),
+  cityName: yup.string().required('Required'),
+  countryName: yup.string().required('Required'),
+});
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [weather, setWeather] = useState('');
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="window" style={{ minWidth: 300 }}>
+      <div className="title-bar">
+        <div className="title-bar-text">Get the Weather 🌞</div>
+        <div className="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close"></button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="window-body">
+        <Formik<FormState>
+          initialValues={{ apiKey: '', cityName: '', countryName: '' }}
+          validationSchema={validationSchema}
+          onSubmit={({ apiKey, cityName, countryName }) =>
+            getWeather(apiKey, cityName, countryName)
+              .then(setWeather)
+              .catch((err) => {
+                console.error(err);
+              })
+          }
+        >
+          {({ isSubmitting, isValid }) => (
+            <Form>
+              <div className="field-row-stacked">
+                <label htmlFor="apiKey">API Key</label>
+                <Field name="apiKey" type="password" />
+                <ErrorMessage name="apiKey" component="p" className="error" />
+              </div>
+              <div className="field-row-stacked">
+                <label htmlFor="cityName">City</label>
+                <Field name="cityName" type="text" />
+                <ErrorMessage name="cityName" component="p" className="error" />
+              </div>
+              <div className="field-row-stacked">
+                <label htmlFor="countryName">Country</label>
+                <Field name="countryName" type="text" />
+                <ErrorMessage
+                  name="countryName"
+                  component="p"
+                  className="error"
+                />
+              </div>
+              {weather ? <p>{weather}</p> : null}
+              <section
+                className="field-row"
+                style={{ justifyContent: 'flex-end' }}
+              >
+                <button disabled={isSubmitting || !isValid} type="submit">
+                  Go
+                </button>
+              </section>
+            </Form>
+          )}
+        </Formik>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   );
 }
 

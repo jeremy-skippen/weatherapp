@@ -1,0 +1,22 @@
+:root,
+body
+{
+    padding: 0;
+    margin: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+:root
+{
+    background-image: url('/bliss-update.jpg');
+    background-position: center center;
+    background-size: cover;
+}
+
+body
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

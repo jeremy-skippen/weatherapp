@@ -17,8 +17,8 @@ if (builder.Environment.IsDevelopment())
         opt.AddPolicy(DEV_CORS_POLICY_NAME, builder =>
         {
             builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
+                .WithOrigins("http://localhost:5173")
+                .WithMethods("GET")
                 .AllowAnyHeader();
         });
     });
@@ -86,6 +86,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(DEV_CORS_POLICY_NAME);
 }
 
 app.MapGet("/weather", async (string cityName, string countryName, IOpenWeatherMapClient weatherClient, CancellationToken ct) =>

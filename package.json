@@ -11,8 +11,11 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "formik": "^2.4.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "xp.css": "^0.2.6",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
