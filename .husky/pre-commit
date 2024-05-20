@@ -1,1 +1,2 @@
 npx lint-staged --relative
+npx vitest --bail 1 --run

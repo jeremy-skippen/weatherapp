@@ -18,7 +18,7 @@ if (builder.Environment.IsDevelopment())
         {
             builder
                 .WithOrigins("http://localhost:5173")
-                .WithMethods("GET")
+                .WithMethods("GET", "OPTIONS")
                 .AllowAnyHeader();
         });
     });
@@ -79,15 +79,15 @@ builder.Logging
 
 var app = builder.Build();
 
-app.UseAuthorization();
-app.UseRateLimiter();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseCors(DEV_CORS_POLICY_NAME);
 }
+
+app.UseAuthorization();
+app.UseRateLimiter();
 
 app.MapGet("/weather", async (string cityName, string countryName, IOpenWeatherMapClient weatherClient, CancellationToken ct) =>
     {
