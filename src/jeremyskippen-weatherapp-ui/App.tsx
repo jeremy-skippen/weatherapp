@@ -47,12 +47,12 @@ function App() {
               <Form>
                 <div className="field-row-stacked">
                   <label htmlFor="apiKey">API Key</label>
-                  <Field name="apiKey" type="password" />
+                  <Field id="apiKey" name="apiKey" type="password" />
                   <ErrorMessage name="apiKey" component="p" className="error" />
                 </div>
                 <div className="field-row-stacked">
                   <label htmlFor="cityName">City</label>
-                  <Field name="cityName" type="text" />
+                  <Field id="cityName" name="cityName" type="text" />
                   <ErrorMessage
                     name="cityName"
                     component="p"
@@ -61,7 +61,7 @@ function App() {
                 </div>
                 <div className="field-row-stacked">
                   <label htmlFor="countryName">Country</label>
-                  <Field name="countryName" type="text" />
+                  <Field id="countryName" name="countryName" type="text" />
                   <ErrorMessage
                     name="countryName"
                     component="p"
