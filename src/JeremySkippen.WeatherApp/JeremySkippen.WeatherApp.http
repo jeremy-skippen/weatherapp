@@ -1,6 +1,6 @@
 @JeremySkippen_WeatherApp_HostAddress = http://localhost:5261
 
-GET {{JeremySkippen_WeatherApp_HostAddress}}/weather
+GET {{JeremySkippen_WeatherApp_HostAddress}}/weather?cityName=Melbourne&countryName=Australia
 Accept: application/json
 Authorization: ApiKey API-KEY-3
 

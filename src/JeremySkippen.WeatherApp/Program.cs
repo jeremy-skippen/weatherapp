@@ -26,6 +26,8 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services
     .AddLogging()
+    .AddHttpClient()
+    .AddScoped<IOpenWeatherMapClient, OpenWeatherMapClient>()
     .AddProblemDetails()
     .AddEndpointsApiExplorer()
     .AddSwaggerGen();
@@ -86,33 +88,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weather", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeather")
-.WithOpenApi()
-.RequireAuthorization()
-.RequireRateLimiting(RATE_LIMIT_POLICY_NAME);
+app.MapGet("/weather", async (string cityName, string countryName, IOpenWeatherMapClient weatherClient, CancellationToken ct) =>
+    {
+        try
+        {
+            return Results.Ok(await weatherClient.GetWeather(cityName, countryName, ct));
+        }
+        catch (WeatherNotFoundException)
+        {
+            return Results.NotFound();
+        }
+    })
+    .WithName("GetWeather")
+    .WithOpenApi()
+    .RequireAuthorization()
+    .RequireRateLimiting(RATE_LIMIT_POLICY_NAME);
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
 
 public partial class Program { }
